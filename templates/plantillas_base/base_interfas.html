@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='image/3333.png') }}" />
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='materialize/css/materialize.min.css') }}">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- zona de scripts -->
+
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.3.1/jquery-3.3.1.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}"></script>
+
+    
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <style type="text/css">
+        /* .foto {
+            background-image: linear-gradient(to bottom right, rgb(12, 12, 12), rgba(25, 25, 65, 0.829), grey, rgba(11, 1, 48, 0.63));
+            background-image: url(" {{ url_for('static', filename='image/12.jpg') }} ");
+            filter: blur(1px);
+            -webkit-filter: blur(1px);
+            height: 100vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        } */
+
+        .caja-texto {
+             /*background-color: #FFF; */
+            background-image: linear-gradient(to bottom right, rgb(255,255,255), rgb(236, 240, 241));
+            
+            color: white;
+            position: absolute;
+            top: 0%;
+            bottom: 0%;
+            left: 0%;
+            width: 100%;
+        }
+    </style>
+
+    {% block encabezado %}
+    {% endblock %}
+</head>
+
+<body>
+
+    <!-- <div class="foto"></div> -->
+    <div class="caja-texto">
+        <div class="row">
+            {% block cuerpo %}
+            {% endblock %}
+        </div>
+    </div>
+
+</body>
+    {% block codigoJavascript %}
+    {% endblock %}
+
+</html>

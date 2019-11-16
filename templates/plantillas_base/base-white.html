@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='materialize/css/materialize.min.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- zona de scripts -->
+
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.3.1/jquery-3.3.1.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <style type="text/css">
+        .foto {
+            background-image: url(" {{ url_for('static', filename='image/ofi.jpg') }} ");
+
+            filter: blur(3px);
+            -webkit-filter: blur(3px);
+
+            height: 100vh;
+
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .caja-texto {
+            color: white;
+            position: absolute;
+            top: 0%;
+            bottom: 0%;
+            left: 0%;
+            width: 100%;
+            text-align: center;
+        }
+        #btn_inicio {
+            background-image: linear-gradient( rgb(160, 204, 255),  rgb(50, 146, 255));
+            padding: 5px 20px;
+            border-radius: 8px;
+            margin-top: 5px;
+            color: rgb(255, 255, 255);
+        }
+        input[type=text]:not(.browser-default) {
+            background-color: rgb(0,0,0,0.5);
+            border-radius: 15px;
+            text-align: center;
+            color: #FFF;
+            font-family: Meichic;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+    </style>
+    {% block encabezado %}
+    {% endblock %}
+</head>
+
+<body>
+
+    <div class="foto"></div>
+    <div class="caja-texto">
+        <div class="row">
+            <div class="col s12 left-align">
+                <a class="col s1" href="inicio"><i id="btn_inicio" class="material-icons">home</i></a>
+                <div class="col s10 center-align" style="margin-top: 5px;">
+                    <input id="buscar" class="s11 offset-s2 col m6 offset-m3" type="text" placeholder="Buscar">
+                </div>
+            </div>
+            {% block cuerpo %}
+            {% endblock %}
+        </div>
+    </div>
+
+</body>
+    <script type="text/javascript">
+        $("#buscar").keyup(function(e) {
+            if (e.keyCode == 13) {
+                console.log("sii");
+                $("#modal1").modal("open");
+            }
+        });
+    </script>
+    {% block codigoJavascript %}
+    {% endblock %}
+
+</html>

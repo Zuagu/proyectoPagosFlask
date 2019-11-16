@@ -1,0 +1,91 @@
+{% extends 'plantillas_base/base.html' %}
+
+{% block cuerpo %}
+<div class="col s10 offset-s1 div_registro">
+    <h4>Registrar</h4>
+
+    <div class="input-field col s10 offset-s1 m5 ">
+        <input id="nombre" value="" type="text" class="validate"
+            style="background-color:rgba(49, 75, 223, 0.2);border-radius:5px;">
+        <label for="nombre">Nombre Completo</label>
+    </div>
+    <div class="input-field col s10 offset-s1 m5 offset-m2">
+        <input id="usuario" value="" type="text" class="validate"
+            style="background-color:rgba(49, 75, 223, 0.2);border-radius:5px;">
+        <label for="usuario">Usuario</label>
+    </div>
+    <div class="input-field col s10 offset-s1 m5">
+        <input id="pass" value="" type="password" class="validate"
+            style="background-color:rgba(49, 75, 223, 0.2);border-radius:5px;">
+        <label for="pass">Contraseña</label>
+    </div>
+    <div class="input-field col s10 offset-s1 m5 offset-m2">
+        <input id="passConfirm" value="" type="password" class="validate"
+            style="background-color:rgba(49, 75, 223, 0.2);border-radius:5px;">
+        <label for="passConfirm">Confirmar Contraseña</label>
+    </div>
+
+    <div class="input-field col s10 offset-s1">
+        <select id="categoria">
+            <option value="">Categoria</option>
+            <option value="1">Administrador</option>
+            <option value="2">Empleado</option>
+            <option value="3">Cliente</option>
+            <option value="4">Invitado</option>
+        </select>
+        <label>Categoria Usuario</label>
+    </div>
+
+    <a id="iniciar" class="waves-effect waves-light btn" style="margin-bottom: 2rem;">button</a>
+
+</div>
+
+{% endblock %}
+
+
+{% block codigoJavascript %}
+<script type="text/javascript">
+    $(document).ready( function () {
+        $('select').formSelect();
+    });
+
+    $("#iniciar").click( function () {
+
+        datos = {
+            nombre: $("#nombre").val(),
+            usuario: $("#usuario").val(),
+            pass: $("#pass").val(),
+            passConfirm: $("#passConfirm").val(),
+            categoria: $("#categoria").val()
+        }
+        console.log(datos);
+
+        if (datos.nombre == "") {
+            alert("Ingresa Un Nombre");
+        }else if (datos.usuario == "") {
+            alert("Ingresa Un Usuario");
+        }else if (datos.pass == "" || datos.passConfirm == "") {
+            alert("Ingresa y Confirma la Contraseña");
+        }else if (datos.categoria == "") {
+            alert("Selecciona la Categoria");
+        } else if (datos.pass == datos.passConfirm) {
+            $.ajax({
+                url: "/registrar_usuario",
+                data: datos,
+                type: 'POST',
+                success: function (ress) {
+                    console.log(ress);
+                },
+                error: function (ress) {
+                    console.log(ress);
+                } 
+            });
+        } else {
+            alert("La contraseña no coincide.");
+        }
+
+        
+
+    });
+</script>
+{% endblock %}

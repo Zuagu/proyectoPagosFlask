@@ -1,0 +1,448 @@
+{% extends 'plantillas_base/base-white.html' %}
+<!-- ========================================== -->
+{% block encabezado %}
+<style>
+    .cont-prin {
+        margin-top: 5vh;
+        font-family: Meichic;
+    }
+
+    .tabla_pagos {
+        height: 65vh;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        font-size: 12px;
+        border-radius: 0 0 5px 5px;
+    }
+
+    td {
+        border-radius: 0px;
+    }
+    .nuevos-pagos {
+        height: 65vh;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        font-size: 12px;
+        border-radius: 0 0 5px 5px;
+    }
+    .pagos-cargados {
+        height: 65vh;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        font-size: 12px;
+        border-radius: 0 0 5px 5px;
+    }
+
+    .inner::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+        background: red;
+    }
+
+    .inner::-webkit-scrollbar-thumb {
+        width: 0px;
+        height: 0px;
+        background: red;
+    }
+    .tabs {
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 5px 5px 0 0;
+    }
+    .borde {
+        border-radius: 5px;
+    }
+    .flow-text {
+        font-size: 1.3rem;
+    }
+    .tabs .tab a.active {
+        color: #40c4ff;
+    }
+    .tabs .tab a:focus, .tabs .tab a:focus.active {
+        background-color: rgba(178, 211, 246, 0.2);
+        outline: none;
+    }
+    .tabs .tab a {
+        color: rgba(110, 195, 238, 0.7);
+    }
+    .tabs .indicator{
+        background-color: #40c4ff;
+    }
+    .tabs .tab a:hover {
+        color: #40c4ff;
+    }
+    table.highlight>tbody>tr:hover {
+        background-color: rgba(0, 165, 228, 0.5);
+    }
+    .btn {
+        border-radius: 8px;
+        background-image: linear-gradient( rgb(160, 204, 255),  rgb(50, 146, 255));
+        color: #000;
+        transition: .9s;
+        font-weight: bold;
+    }
+    .btn:hover {
+        background-color: rgb(0,0,0,0.4);
+        color: #FFF;
+        transition: .9s;
+        background-image: linear-gradient(  rgb(50, 146, 255),  rgb(0, 75, 145));
+    }
+</style>
+{%  endblock %}
+<!-- ========================================== -->
+{% block cuerpo %}
+<div class="col s12 m12">
+    <div class="col s12 m12 cont-prin">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s3"><a href="#test1">Pagos Cargados</a></li>
+                <li class="tab col s3"><a href="#test2">Nuevos Pagos</a></li>
+                <li class="tab col s3"><a href="#test3">Pagos Existentes</a></li>
+                <li class="tab col s3"><a href="#test4">Base</a></li>
+            </ul>
+        </div>
+        <div id="test1" class="col s12">
+            <div class="col s12 tabla_pagos inner">
+                <table id="tabla_de_pagos" class="bordered highlight">
+                    <thead class="">
+                        <th>Id</th>
+                        <th>Cli</th>
+                        <th>Reg</th>
+                        <th>Asig</th>
+                        <th>Cuenta</th>
+                        <th>F_pago</th>
+                        <th>Origen</th>
+                        <th>Importe</th>
+                        <th>Forma</th>
+                        <th>Status</th>
+                        <th>F_aplicacion</th>
+                        <th>F_ges</th>
+                        <th>Cade_Uni</th>
+                        <th>Exis</th>
+                    </thead>
+                    <tbody id="cuerpo_tabla_pagos">
+
+                    </tbody>
+                </table>
+                <div class="col s12 rep_pagos_cargados">
+                    
+                </div>
+            </div>
+            <div class="col 12" style="margin-top: 1vh;">
+                <a id="ver-pagos-cargados" class="waves-effect btn">Ver tabla</a>
+                <a id="cargar-pagos" class="waves-effect btn">Cargar pagos</a>
+                <a id="identificar-pagos" class="waves-effect btn">Identificar</a>
+                <a id="eliminar-pagos" class="waves-effect red btn">Eliminar pagos</a>
+                <a id="genarar-cadena" class="waves-effect btn">Generar Cadena</a>
+                <a id="reporte-pagos" class="waves-effect btn">Reporte</a>
+            </div>
+        </div>
+
+        <div id="test2" class="col s12">
+            <div class="col s12 nuevos-pagos">
+                <table id="tabla_de_pagos" class="bordered highlight">
+                    <thead class="">
+                        <th>Id</th>
+                        <th>Cli</th>
+                        <th>Reg</th>
+                        <th>Asig</th>
+                        <th>Cuenta</th>
+                        <th>F_pago</th>
+                        <th>Origen</th>
+                        <th>Importe</th>
+                        <th>Forma</th>
+                        <th>Status</th>
+                        <th>F_aplicacion</th>
+                        <th>F_ges</th>
+                        <th>Cade_Uni</th>
+                        <th>Exis</th>
+                    </thead>
+                    <tbody id="cuerpo_tabla_pagos_nuevos">
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col 12" style="margin-top: 1vh;">
+                <a id="pagos-nuevos" class="waves-effect waves-light red btn">Ver Pagos Nuevos</a>
+            </div>
+
+        </div>
+
+        <div id="test3" class="col s12">
+            <div class="col s12 pagos-cargados inner">
+
+            </div>
+            <div class="col 12" style="margin-top: 1vh;">
+                <a id="rep" class="waves-effect waves-light blue-grey lighten-5 black-text btn">Ver Reporte</a>
+                <a id="pagos-exis" class="waves-effect waves-light green btn">Pagos Existentes</a>
+                <a id="limpiar-pCarcagos" class="waves-effect waves-light red btn">Eliminar</a>
+            </div>
+
+        </div>
+
+        <div id="test4" class="col s12">
+            <div id="div_general" class="col s12 nuevos-pagos">
+
+            </div>
+            <div class="col 12" style="margin-top: 1vh;">
+                <a id="reporte-base" class="waves-effect waves-light blue-grey lighten-5 black-text btn">Reporte base</a>
+                <a id="actualizar-base" class="waves-effect waves-light pink darken-1 btn">Actualizar base</a>
+                <a id="limpiar-base" class="waves-effect waves-light red btn">Limpiar Base</a>
+            </div>
+
+        </div>
+
+    </div>
+
+  <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+    </div>
+</div>
+
+{%  endblock %}
+<!-- ========================================== -->
+{% block codigoJavascript %}
+<script>
+    $(document).ready(function () {
+        $('.tabs').tabs();
+        $('.modal').modal();
+    });
+
+    
+
+    $("#reporte-pagos").click(function () {
+        $.ajax({
+            url: '/reporte-pagos',
+            type: 'POST',
+            success: function (ress) {
+                console.log(ress);
+                $("#cuerpo_tabla_pagos").empty();
+                $(".rep_pagos_cargados").empty();
+                for (datos in ress) {
+                    $(".rep_pagos_cargados").append('<div class="col s6 m4"><div class="card col s10 offset-s1 black-text borde hoverable">'+
+                    '<br><samp class="flow-text">Region: '+ress[datos][1]+'</samp>'+
+                    '<br>'+
+                    '<samp class="flow-text">Asignacion: '+ress[datos][2]+'</samp>'+
+                    '<br>'+
+                    '<samp class="flow-text">Cantidad: '+ress[datos][0]+'</samp>'+
+                    '<br><br></div></div>');
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $("#ver-pagos-cargados").click(function () {
+        $.ajax({
+            url: '/ver-pagos-cargados',
+            type: 'POST',
+            success: function (ress) {
+                pintar_tabla(ress, );
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $("#eliminar-pagos").click(function () {
+        $.ajax({
+            url: '/eliminar-pagos',
+            type: 'POST',
+            success: function (ress) {
+                alert("pagos eliminados");
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $("#cargar-pagos").click(function () {
+        $.ajax({
+            url: '/cargar-pagos',
+            type: 'POST',
+            success: function (ress) {
+                alert(ress);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $("#identificar-pagos").click(function () {
+        $.ajax({
+            url: '/identificar-pagos',
+            type: 'POST',
+            success: function (ress) {
+                console.log(ress);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $("#genarar-cadena").click(function () {
+        $.ajax({
+            url: '/cadenaunica',
+            type: 'POST',
+            success: function (ress) {
+                alert(ress);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $("#pagos-exis").click(function () {
+        $.ajax({
+            url: '/obtener-pagos-baseSicsa',
+            type: 'POST',
+            success: function (ress) {
+                console.log(ress);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+    
+    $("#pagos-nuevos").click(function () {
+        $.ajax({
+            url: '/pagos-nuevos',
+            type: 'POST',
+            success: function (ress) {
+                console.log(ress);
+                pintar_tabla_pagos_nuevos(ress);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $("#rep").click(function () {
+        $.ajax({
+            url: '/reporte-pagos-cagados',
+            type: 'POST',
+            success: function (ress) {
+                $(".pagos-cargados").empty();
+                for (datos in ress) {
+                    $(".pagos-cargados").append('<div class="col s6 m4"><div class="card col s10 offset-s1 borde black-text hoverable">'+
+                    '<samp class="flow-text">Region: '+ress[datos][1]+'</samp>'+
+                    '<br>'+
+                    '<samp class="flow-text">Asignacion: '+ress[datos][2]+'</samp>'+
+                    '<br>'+
+                    '<samp class="flow-text">Cantidad: '+ress[datos][0]+'</samp>'+
+                    '</div></div>');
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $("#limpiar-pCarcagos").click(function () {
+        $.ajax({
+            url: '/eliminar-pagos-cargados',
+            type: 'POST',
+            success: function (ress) {
+                console.log(ress);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $("#reporte-base").click(function () {
+        $.ajax({
+            url: '/reporte-base',
+            type: 'POST',
+            success: function (ress) {
+
+                $("#div_general").empty();
+                for (datos in ress) {
+                    $("#div_general").append('<div class="col s6 m4"><div class="card col s10 offset-s1  borde black-text hoverable">'+
+                    '<samp class="flow-text">Region: '+ress[datos][3]+'</samp>'+
+                    '<br>'+
+                    '<samp class="flow-text">Asignacion: '+ress[datos][4]+'</samp>'+
+                    '<br>'+
+                    '<samp class="flow-text">Cuentas: '+ress[datos][0]+'</samp>'+
+                    '</div></div>');
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $("#actualizar-base").click(function () {
+        $.ajax({
+            url: '/actualizar-base',
+            type: 'POST',
+            success: function (ress) {
+                console.log(ress);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $("#limpiar-base").click(function () {
+        $.ajax({
+            url: '/limpiar-base',
+            type: 'POST',
+            success: function (ress) {
+                console.log(ress);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    function pintar_tabla(ress) {
+        $(".rep_pagos_cargados").empty();
+        $("#cuerpo_tabla_pagos").empty();
+        var row_print;
+        for (i in ress) {
+            row_print = '<tr>';
+            for (x in ress[i]) {
+                row_print += '<td>' + ress[i][x] + '</td>';
+            }
+            row_print += '</tr>';
+            $("#cuerpo_tabla_pagos").append(row_print);
+        }
+    }
+    function pintar_tabla_pagos_nuevos(ress) {
+        $("#cuerpo_tabla_pagos_nuevos").empty();
+        var row_print;
+        for (i in ress) {
+            row_print = '<tr>';
+            for (x in ress[i]) {
+                row_print += '<td>' + ress[i][x] + '</td>';
+            }
+            row_print += '</tr>';
+            $("#cuerpo_tabla_pagos_nuevos").append(row_print);
+        }
+    }
+
+</script>
+
+{%  endblock %}

@@ -1,0 +1,104 @@
+{% extends 'plantillas_base/base_interfas.html' %}
+
+{% block encabezado %}
+<style>
+    .sidenav li>a {
+        color: aliceblue;
+    }
+    .sidenav {
+        background-color: transparent;
+        background-image: linear-gradient(to right, rgb(0, 0, 0) , rgba(12, 0, 41, 0.548),rgba(3, 0, 41, 0.178));
+    }
+    .modulos {
+        margin-top: 15px;
+        color: rgb(59,59,59);
+        border-radius: 8px;
+        /* background-color: rgba(255,524,255, 0.9); */
+        background-image: linear-gradient( rgb(255, 255, 255),  rgb(186, 216, 250));
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+    .btn {
+        background-image: linear-gradient( rgb(160, 204, 255),  rgb(50, 146, 255));
+        /* background-image: linear-gradient(to bottom right, rgba(87,53,211), rgb(157,190,250)); */
+        border-radius: 8px;
+        margin-bottom: 8px;
+    }
+    
+</style>
+{%  endblock %}
+
+{% block cuerpo %}
+
+<ul id="slide-out" class="sidenav">
+    <li>
+        <div class="user-view">
+            <div class="background">
+                <img src="../static/image/gifrees.gif" width="100%">
+            </div>
+            <a><img class="circle" src="../static/image/3333.png"></a>
+            <a><span class="white-text name">John Doe</span></a>
+            <a><span class="white-text email">jdandturk@gmail.com</span></a>
+        </div>
+    </li>
+    <li><a><i class="material-icons">cloud</i>First Link With Icon</a></li>
+    <li><a>Second Link</a></li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="subheader">Subheader</a></li>
+    <li><a class="waves-effect waves-red" href="#!">Third Link With Waves</a></li>
+</ul>
+<div class="col s12">
+    <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+</div>
+
+<div class="col s12 m10 offset-m1">
+
+    <div class="col s12 m4   ">
+        <div class="col s10 offset-s1 modulos z-depth-1 hoverable">
+            <h5>Cargar pagos</h5><br>
+            <a href="/subir" class="btn waves-effect black-text">Acceder</a><br><br>
+        </div>
+    </div>
+
+    <div class="col s12 m4  ">
+        <div class="col s10 offset-s1 modulos z-depth-1 hoverable">
+            <h5>Seleccion</h5><br>
+            <a href="/pagos" class="btn waves-effect black-text">Acceder</a><br><br>
+        </div>
+    </div>
+
+    <div class="col s12 m4  ">
+        <div class="col s10 offset-s1 modulos z-depth-1 hoverable">
+            <h5>Registro</h5><br>
+            <a href="/registro" class="btn waves-effect black-text">Acceder</a><br><br>
+        </div>
+    </div>
+
+    <div class="col s12 m4  ">
+        <div class="col s10 offset-s1 modulos z-depth-1 hoverable">
+            <h5>Usuarios</h5><br>
+            <a href="/usuarios" class="btn waves-effect black-text">Acceder</a><br><br>
+        </div>
+    </div>
+
+    <div class="col s12 m4  ">
+        <div class="col s10 offset-s1 modulos z-depth-1 hoverable">
+            <h5>Archivos</h5><br>
+            <a href="/sms" class="btn waves-effect black-text">Acceder</a><br><br>
+        </div>
+    </div>
+</div>
+{%  endblock %}
+
+{% block codigoJavascript %}
+<script>
+    $(document).ready(function () {
+        $('.sidenav').sidenav();
+    });
+
+    
+</script>
+{%  endblock %}

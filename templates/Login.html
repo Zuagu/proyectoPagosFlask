@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='image/3333.png') }}" />
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='materialize/css/materialize.min.css') }}">
+    <!-- zona de scripts -->
+
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.3.1/jquery-3.3.1.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}"></script>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='icons-material.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style type="text/css">
+
+        .foto {
+            background-image: url(" {{ url_for('static', filename='image/gifrees.gif') }} ");
+
+            filter: blur(3px);
+            -webkit-filter: blur(3px);
+
+            height: 100vh;
+
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .caja-texto {
+            color: white;
+            position: absolute;
+            top: 0%;
+            bottom: 0%;
+            left: 0%;
+            width: 100%;
+            text-align: center;
+        }
+
+
+        .div_login {
+            margin-top: 10rem;
+            background-color: rgba(23, 34, 94, 0.3);
+            border-radius: 5px;
+        }
+
+        .div_consola {
+            margin-top: 8rem;
+            background-color: rgba(23, 34, 94, 0.3);
+            border-radius: 5px;
+        }
+
+        .validate {
+            text-align: center;
+            color: #FFF;
+            font-family: 'Meichic';
+        }
+
+        .input-field input[type=text]:not(.browser-default) {
+            border-bottom: 1px solid #000;
+            box-shadow: 0 1px 0 0 #000;
+        }
+
+        .input-field input[type=text]:not(.browser-default):focus:not([readonly]) {
+            border-bottom: 1px solid #DC00CB;
+            box-shadow: 0 1px 0 0 #000;
+        }
+
+        .input-field input[type=password]:not(.browser-default) {
+            border-bottom: 1px solid #000;
+            box-shadow: 0 1px 0 0 #000;
+        }
+
+        .input-field input[type=password]:not(.browser-default):focus:not([readonly]) {
+            border-bottom: 1px solid #DC00CB;
+            box-shadow: 0 1px 0 0 #000;
+        }
+
+        #iniciar {
+            background-color: rgba(185, 2, 176, 0.466);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="foto"></div>
+    <div class="caja-texto">
+        <div class="row">
+            <div class="col s10 offset-s1 m4 offset-m4 div_login">
+                <h4>Login</h4>
+                <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="user" type="text" class="validate" style="background-color: rgba(196, 255, 216, 0.096) ;border-radius:5px;">
+                    <label for="user">Usuario</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">vpn_key</i>
+                    <input id="pass" type="password" class="validate" style="background-color: rgba(196, 255, 216, 0.096) ;border-radius:5px;">
+                    <label for="pass">Contraseña</label>
+                </div>
+
+                <div class="col s12" style="margin-bottom: 15px;">
+                    <a id="iniciar" class="waves-effect waves-light btn col s6 offset-s3">Iniciar</a>
+                </div>
+            </div>
+
+            <div id="esperar" class="col s10 offset-s1 m4 offset-m4 div_consola hide">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        $("#iniciar").click(function () {
+            // $("#esperar").removeClass("hide");
+        });
+
+        $("#iniciar").click(function () {
+            var datos = {
+                user: $("#user").val(),
+                pass: $("#pass").val()
+            };
+            $.ajax({
+                url: '/login',
+                data: datos,
+                type: 'POST',
+                success: function (ress) {
+                    console.log(ress)
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+            console.log(datos);
+        });
+
+    </script>
+
+
+</body>
+
+</html>

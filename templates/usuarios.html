@@ -1,0 +1,126 @@
+{% extends 'plantillas_base/base-white.html' %}
+
+{% block encabezado %}
+<style>
+    .sidenav li>a {
+        color: aliceblue;
+    }
+
+    .sidenav {
+        background-color: transparent;
+        background-image: linear-gradient(to right, rgb(0, 0, 0), rgba(12, 0, 41, 0.548), rgba(3, 0, 41, 0.178));
+    }
+    .list_usuarios {
+        margin-top: 1vh;
+        background-color: rgba(0, 0, 0, 0.6);
+        height: 70vh;
+        overflow: auto;
+        border-radius: 5px;
+        font-family: Meichic;
+    }
+    .cont {
+        margin-top: 10vh;
+    }
+    .inner::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+        background: red;
+    }
+
+    .inner::-webkit-scrollbar-thumb {
+        width: 0px;
+        height: 0px;
+        background: red;
+    }
+</style>
+{%  endblock %}
+
+{% block cuerpo %}
+
+<div class="col s12 cont">
+    <div class="col s12 m10 offset-m1 right-align">
+        <a id="ver_usuarios" class="waves-effect btn">ver usuairos</a>
+    </div>
+    <div id="lista_usuarios" class="col s12 m10 offset-m1 list_usuarios inner">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Usuario</th>
+                    <th>Password</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody id="contenido_tabla_usuario">
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="col s12">
+        <div id="error">
+
+        </div>
+    </div>
+
+</div>
+{%  endblock %}
+
+{% block codigoJavascript %}
+<script>
+    $(document).ready(function () {
+
+    });
+
+    function pintar_tabla(datos_json){
+        var renglon = '';
+        $("#contenido_tabla_usuario").empty();
+        for (row in datos_json) {
+            renglon = '<tr>';
+            for(x in datos_json[row]){
+                renglon += '<td>' + datos_json[row][x] + '</td>';
+            }
+            renglon += '</tr>';
+            $("#contenido_tabla_usuario").append(renglon);
+        }
+    }
+
+    $("#ver_usuarios").click(function () {
+        $.ajax({
+            url: '/tabla_usuarios',
+            type: 'POST',
+            dataType: 'JSON',
+            success: function (ress) {
+                console.log(ress);
+                pintar_tabla(ress);
+            },
+            error: function (err) {
+                console.log(err)
+                $("#error").empty();
+                $("#error").append(err.responseText)
+            }
+        });
+    });
+
+    $("#insert_usuarios").click(function () {
+        datos = {
+            d_insert: $("#dato").val()
+        }
+        $.ajax({
+            url: '/insert_usuarios_js',
+            data: datos,
+            type: 'POST',
+            success: function (ress) {
+                console.log(ress)
+            },
+            error: function (err) {
+                console.log(err)
+                $("#error").empty();
+                $("#error").append(err.responseText)
+            }
+        });
+    });
+
+
+</script>
+{%  endblock %}

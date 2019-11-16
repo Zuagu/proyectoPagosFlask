@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Funcion del login aleatorio</title>
+	<link rel="stylesheet" type="text/css" href="../static/materialize/css/materialize.min.css">
+	<link rel="stylesheet" type="text/css" href="../static/login-aleatorio.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body id="div_body">
+
+	<div class="row">
+		<div id="login" class="col s12 m8 offset-m2 div_login">
+			<div id="box_logo" class="col s8 offset-s2">
+			</div>
+			<div class="col s8 offset-s2">
+				<input type="text" placeholder="nombre">
+				<input type="text" placeholder="contraseña">
+			</div>
+			<div class="col s8 offset-s2">
+				<a id="btn" href="#" class="waves-effect btn col s10 offset-s1">Enviar</a>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="../static/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="../static/materialize/js/materialize.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready( function () {
+
+
+			//Codigo de estilo random
+			var estilo = Math.floor(Math.random() * 3) + 1;
+			$("#login").css("opacity", 1)
+			$("#box_logo").empty();
+			$("#box_logo").append('<img src="../static/image/logoSicsa/bg-logo'+estilo+'.png" width="100%">');
+			$("#div_body").addClass("fondo"+estilo );
+			$("#btn").addClass("enviar"+estilo )
+
+		});
+	</script>
+</body>
+</html>

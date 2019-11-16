@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='image/12.png') }}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Usuarios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/materialize/css/materialize.min.css">
+    <script src="../static/usuarios.js"></script>
+    <script src="../static/jquery-2.2.4.min.js"></script>
+    <script src="../static/materialize/js/materialize.min.js"></script>
+    <style>
+        /* contenido del contenedor tabla de usuarios */
+        .table_user {
+            margin-top: 3vh;
+            height: 84vh;
+            max-height: 84vh;
+            overflow: auto;
+            border-radius: 4px;
+        }
+
+        /* modificaciones del modal */
+        .modal {
+            width: 75%;
+            max-height: 85%;
+            border-radius: 1px;
+        }
+
+        .image_perfil {
+            visibility: collapse;
+        }
+
+        /* ocutar el scroll de overflow actulamente solo funciona en crhome */
+        .inner::-webkit-scrollbar {
+            width: 0px;
+            height: 0px;
+            background: rgb(255, 255, 255);
+        }
+
+        .inner::-webkit-scrollbar-thumb {
+            width: 0px;
+            height: 0px;
+            background: rgb(255, 255, 255);
+        }
+
+        /* estilos de botonses */
+        /* modificaciones de inputs */
+        input {
+            font-weight: bold;
+        }
+
+        input[type=text]:not(.browser-default) {
+            border-bottom: 1px solid hsla(0, 0%, 76%, 0.336);
+            height: 2rem;
+            color: rgb(70, 70, 70);
+        }
+
+        ;
+
+        .input-field>label {
+            color: #3a3a3a;
+        }
+
+        select {
+            height: 2rem;
+        }
+
+        .tabs {
+            bottom: -58px;
+            background-color: transparent;
+        }
+
+        .modal .modal-footer {
+            background-color: transparent;
+        }
+
+        .cont_img {
+            text-align: center;
+            border: 4px solid white;
+            background-color: rgb(255, 255, 255);
+            background-image: url("../static/image/1360-min.png");
+            background-size: cover;
+            margin-top: 4ch;
+            border-radius: 50%;
+        }
+
+        .data_user {
+            background-image: linear-gradient(rgba(233, 233, 233, 0.9), rgba(255, 255, 255, 1));
+            overflow: auto;
+        }
+
+        .options {
+            margin-top: 1rem;
+        }
+
+        .options2 {
+            display: none;
+        }
+
+        .options .material-icons {
+            cursor: pointer;
+            margin-left: 1rem;
+        }
+
+        .options2 .material-icons {
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 26px;
+            background-color: #3a3a3a1e;
+
+        }
+
+        .left_btn {
+            right: auto;
+            left: 20px;
+        }
+
+        .btn-floating:hover {
+            background-color: #2d9bc7;
+        }
+
+        /* modificaciones para pantalla pequeña */
+        @media only screen and (max-width: 601px) {
+            .modal .modal-content {
+                padding: 24px 2px;
+            }
+
+            .btn {
+                font-size: 12px;
+            }
+
+            .modal {
+                top: 5%;
+                max-height: 85%;
+                width: 90%;
+            }
+
+            .tabs {
+                bottom: -5px;
+                background-color: transparent;
+            }
+
+            .cont_img {
+                margin-top: 7ch;
+            }
+
+            .data_user {
+                background-image: linear-gradient(rgba(240, 240, 240, 0.767), rgba(255, 255, 255, 1));
+                border-radius: 25px 25px 0px 0px;
+            }
+
+            .fondo {
+                height: 165px !important;
+            }
+
+            .options {
+                display: none;
+            }
+
+            .options2 {
+                margin-top: -60px;
+                display: block;
+            }
+
+            .fixed-action-btn {
+                bottom: auto;
+                top: 35px;
+            }
+        }
+
+        .modal .modal-content {
+            padding: 0px 0px;
+        }
+
+        .select-wrapper input.select-dropdown {
+            border-bottom: 1px solid hsla(202, 100%, 47%, 0);
+            margin: 0 0 6px 0;
+        }
+
+        .fondo {
+            height: 150px;
+            background-image: url("../static/image/f3.jpg");
+            background-size: cover;
+            /* background-color: rgb(33, 56, 119);
+            background-image: linear-gradient(rgb(2,135,180), rgb(1,26,80)); */
+        }
+
+        .box_image {
+            color: rgb(58, 58, 58);
+            margin-top: -140px;
+            padding: 0 0.1px !important;
+        }
+
+        .row {
+            margin-bottom: 0px;
+        }
+
+        table.highlight>tbody>tr {
+            transition: 0.99s;
+        }
+
+        table.highlight>tbody>tr:hover {
+            background-color: rgba(75, 219, 255, 0.404);
+            cursor: pointer;
+            transition: 0.99s;
+        }
+
+        .input-field {
+            margin-bottom: 0.1rem;
+        }
+
+        .input-field .prefix {
+            top: 0;
+        }
+
+        .flow-text {
+            font-size: 1.3rem;
+        }
+
+        .tabs .tab a.active {
+            color: #f8f8f8;
+            border-radius: 50px;
+        }
+
+        .tabs .tab a:focus,
+        .tabs .tab a:focus.active {
+            background-color: #dadada5b;
+            outline: none;
+            border-radius: 50px;
+        }
+
+        .tabs .tab a {
+            color: rgba(211, 211, 211, 0.7);
+            border-radius: 50px;
+        }
+
+        .tabs .indicator {
+            background-color: #ffffff00;
+        }
+
+        .tabs .tab a:hover {
+            color: #ffffff;
+        }
+
+        .div_btn {
+            margin-bottom: 1rem;
+        }
+
+        .options {
+            margin-top: 1rem;
+        }
+
+        .options .material-icons {
+            cursor: pointer;
+            margin-left: 1rem;
+        }
+
+        /* nav */
+        nav {
+            height: 50px;
+        }
+
+        .icon_nav {
+            line-height: 50px !important
+        }
+
+        .search {
+            width: 50% !important;
+            height: 2.3rem !important;
+            margin-left: 25% !important;
+            line-height: 40px !important;
+            border-radius: 25px !important;
+            color: #ffffff !important;
+        }
+
+        .datepicker-date-display {
+            background-color: #c72d47;
+        }
+
+        .cont_doc {
+            margin-top: .5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .div_tabs {
+            margin-bottom: 1rem;
+        }
+
+        .nex,
+        .prev {
+            background-color: rgba(58, 58, 58, 0.267);
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        .modal-alert {
+            width: 25%;
+        }
+
+        .btn_alert {
+            width: 90%;
+            margin-left: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="grey darken-4">
+        <div class="nav-wrapper icon_nav">
+            <a href="#!" class="brand-logo left"><i class="material-icons icon_nav icon_menu">menu</i></a>
+            <input id="filtro" class="search center-align grey darken-2" type="text" placeholder="Buscar">
+            <ul class="icon_nav right">
+                <li><a href="mobile.html"><i class="material-icons icon_nav">more_vert</i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col s12 m10 offset-m1">
+            <div id="table_user" class="col s12 m12 table_user z-depth-2 inner">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal inner">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12 fondo">
+                    <div class="col s12 white-text right-align options">
+                        <i class="material-icons modal-close eliminar">delete</i>
+                        <i class="material-icons edit">create</i>
+                        <i class="material-icons save hide">save</i>
+                    </div>
+                    <div class="col s12 m9 offset-m3">
+                        <ul id="tabs-swipe-demo" class="tabs">
+                            <li class="tab col s3"><a class="active" href="#test-swipe-1">Datos</a></li>
+                            <li class="tab col s3"><a href="#test-swipe-2">Archivo</a></li>
+                            <li class="tab col s3"><a href="#test-swipe-3">Contrato</a></li>
+                            <li class="tab col s3"><a href="#test-swipe-4">Formmatos</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col s12 m3 box_image">
+                    <div class="col s6 offset-s3 m11 offset-m1 cont_img hoverable">
+                        <img class="image_perfil" src="../static/image/1360-min.png" alt="" width="85%">
+                    </div>
+                    <div class="col s12 options2">
+                        <div class="col s2">
+                            <i class="modal-close material-icons eliminar">delete</i>
+                        </div>
+                        <div class="col s2 offset-s8">
+                            <i class="material-icons waves-effect edit">create</i>
+                            <i class="material-icons waves-effect save hide">save</i>
+                        </div>
+                    </div>
+                    <h4 class="center col s12 m11 offset-m1"><b id="id_user"></b></h4>
+                    <h6 class="center col s12 m11 offset-m1"><b id="puesto"></b></h6>
+                </div>
+                <div class="col s12 m9 data_user">
+
+                    <div id="test-swipe-1" class="col s12 div_tabs">
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">account_box</i>
+                            <input id="name" type="text" class="validate" readonly placeholder="">
+                            <label for="name">Nombre</label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input id="alias" type="text" class="validate" readonly placeholder="">
+                            <label for="alias">Alias</label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">email</i>
+                            <input id="correo" type="text" class="validate" readonly placeholder="">
+                            <label for="correo">Correo</label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">person_pin</i>
+                            <input id="jefe" type="text" class="validate" readonly placeholder="">
+                            <label for="jefe">Jefe Inmediato</label>
+                        </div>
+                        <div class="input-field col s6 m6">
+                            <i class="material-icons prefix">assignment_ind</i>
+                            <select id="sexo"></select>
+                            <label>Sexo</label>
+                        </div>
+                        <div class="input-field col s6 m6">
+                            <i class="material-icons prefix">date_range</i>
+                            <input id="f_nacimiento" type="text" class="datepicker" readonly placeholder="">
+                            <label for="f_nacimiento">Fecha Nacimiento</label>
+                        </div>
+                        <div class="input-field col s6 m6">
+                            <i class="material-icons prefix">portrait</i>
+                            <select id="empleado"></select>
+                            <label>Tipo Empleado</label>
+                        </div>
+                        <div class="input-field col s6 m6">
+                            <i class="material-icons prefix">update</i>
+                            <input id="ingreso" type="text" class="datepicker" readonly placeholder="">
+                            <label for="ingreso">Ingreso</label>
+                        </div>
+                        <div class="input-field col s6 m6">
+                            <i class="material-icons prefix">call</i>
+                            <input id="telefono" type="text" class="validate" readonly placeholder="">
+                            <label for="telefono">Telefono</label>
+                        </div>
+
+                        <div class="input-field col s6 m6">
+                            <i class="material-icons prefix">phone_iphone</i>
+                            <input id="celular" type="text" class="validate" readonly placeholder="">
+                            <label for="celular">Celular</label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">location_city</i>
+                            <select id="sucursal"></select>
+                            <label>Sucursal</label>
+                        </div>
+
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">alarm</i>
+                            <input id="horario" type="text" class="validate" readonly placeholder="">
+                            <label for="horario">Horario</label>
+                        </div>
+
+                    </div>
+                    <div id="test-swipe-2" class="col s12 div_tabs">
+                        <div class="col s12 m4">
+                            <p>
+                                <label>
+                                    <input id="f_naci" type="checkbox" />
+                                    <span>Acta de Nacimiento</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input id="ife" type="checkbox" />
+                                    <span>IFE</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input id="nss" type="checkbox" />
+                                    <span>Numero del Seguro Social</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input id="fotos" type="checkbox" />
+                                    <span>Fotos</span>
+                                </label>
+                            </p>
+                        </div>
+                        <div class="col s12 m4">
+                            <p>
+                                <label>
+                                    <input id="curp" type="checkbox" />
+                                    <span>CURP</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input id="com_est" type="checkbox" />
+                                    <span>Comprobante de Estudios</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input id="com_dom" type="checkbox" />
+                                    <span>Comprobante de Domicilio</span>
+                                </label>
+                            </p>
+                        </div>
+                        <div class="col s12 m4">
+                            <p>
+                                <label>
+                                    <input id="carta" type="checkbox" />
+                                    <span>Carta de Referencia</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input id="no_infv" type="checkbox" />
+                                    <span>No Infonavit</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input id="rfc" type="checkbox" />
+                                    <span>RFC</span>
+                                </label>
+                            </p>
+                        </div>
+                    </div>
+                    <div id="test-swipe-3" class="col s12 div_tabs">
+                        <div class="col s6 m3 cont_doc">
+                            <div class="col s10 offset-s1 center-align hoverable waves-effect card-panel">
+                                <a href="#">
+                                    <img src="../static/image/word.fw.png" alt="" width="100%">
+                                    Contrato
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col s6 m3 cont_doc">
+                            <div class="col s10 offset-s1 center-align hoverable waves-effect card-panel">
+                                <a href="#">
+                                    <img src="../static/image/word.fw.png" alt="" width="100%">
+                                    Memorandum
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col s6 m3 cont_doc">
+                            <div class="col s10 offset-s1 center-align hoverable waves-effect card-panel">
+                                <a href="#">
+                                    <img src="../static/image/word.fw.png" alt="" width="100%">
+                                    Reglamento
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="test-swipe-4" class="col s12 div_tabs">
+                        <div class="col s6 m3 cont_doc">
+                            <div id="suspencion" class="col s10 offset-s1 center-align hoverable waves-effect card-panel">
+                                <a href="#">
+                                    <img src="../static/image/word.fw.png" alt="" width="100%">
+                                    <br>
+                                    <b class="nom_docx">Suspencion</b>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- boton flotante izq-->
+        <div class="fixed-action-btn left_btn">
+            <a class="btn-floating btn-large prev">
+                <i class="large material-icons">chevron_left</i>
+            </a>
+        </div>
+        <!-- boton flotante dere-->
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large nex">
+                <i class="large material-icons">chevron_right</i>
+            </a>
+        </div>
+    </div>
+    <!-- modal alert -->
+    <div id="modal_alert" class="modal modal-alert">
+        <div class="modal-content center-align">
+            <h5 class="title"></h5>
+            <br>
+            <h6 class="sms_alert"></h6>
+            <br><br>
+            <div class="btn_alert">
+                <a href="#" class="waves-effect btn red left">Calcelar</a>
+                <a href="#" class="waves-effect btn blue right">Aceptar</a>
+            </div>
+            <br><br>
+        </div>
+    </div>
+
+    <div id="modal_formato" class="modal modal-alert">
+        <div class="modal-content center-align">
+            <h5><b id="nom_format"></b></h5>
+            <div id="data_format" class="collection">
+
+            </div>
+            <b>Quiere generar un nuevo formato?</b>
+            <br><br>
+            <div class="btn_alert">
+                <a href="#" class="waves-effect btn modal-close red left">Calcelar</a>
+                <a href="#" id="insert_format" class="waves-effect btn blue right" >Generar</a>
+            </div>
+            <br><br>
+        </div>
+    </div>
+
+
+    <script>
+        var users = [];
+        var index_pos, suspencion = [];
+        var ident_tr = 0;
+        $(document).ready(function () {
+            $('.modal').modal({
+                dismissible: true,
+                inDuration: 500,
+                outDuration: 250
+            });
+            $('.tabs').tabs();
+            $('select').formSelect();
+            select_usuarios('table_user');
+            $('.datepicker').datepicker({
+                format: "yyyy-mm-dd"
+            });
+
+        });
+
+        function print_data_user_modal(index_pos) {
+            $(".cont_img").css('background-image', 'url("http://201.172.31.105:8080/sistema/images/usuarios/' + users[index_pos][0] + '-min.png")');
+            $('#id_user').text(users[index_pos][0]);
+            $('#puesto').text(users[index_pos][2]);
+            $('#name').val(users[index_pos][1]);
+            $('#alias').val(users[index_pos][7]);
+            $('#sexo').empty();
+            $('#sexo').append('<option value="' + users[index_pos][15] + '">' + users[index_pos][14] + '</option>' + '<option value="H">Masculino</option><option value="M">Femenino</option>');
+            $('#ingreso').val(users[index_pos][3]);
+            $('#telefono').val(users[index_pos][13]);
+            $('#celular').val(users[index_pos][4]);
+            $('#correo').val(users[index_pos][8]);
+            $('#jefe').val(users[index_pos][5]);
+            // $('#empleado').val(users[index_pos][17]);
+            $('#empleado').empty();
+            $('#empleado').append('<option value="' + users[index_pos][17] + '">' + users[index_pos][16] + '</option><option value="1">Administrativo</option><option value="0">Operativo</option>');
+
+            $('#sucursal').empty();
+            $('#sucursal').append('<option value="' + users[index_pos][9] + '">' + users[index_pos][18] + '</option><option value="1">Monterrey</option><option value="2">Puebla</option>');
+            $('#f_nacimiento').val(users[index_pos][19]);
+            $('#horario').val(users[index_pos][30]);
+
+            suspencion = JSON.parse(users[index_pos][31]);
+            console.log(suspencion);
+
+            $('#f_naci').prop('checked', (users[index_pos][20] == "true"));
+            $('#ife').prop('checked', (users[index_pos][21] == "true"));
+            $('#nss').prop('checked', (users[index_pos][22] == "true"));
+            $('#fotos').prop('checked', (users[index_pos][23] == "true"));
+            $('#curp').prop('checked', (users[index_pos][24] == "true"));
+            $('#com_est').prop('checked', (users[index_pos][25] == "true"));
+            $('#com_dom').prop('checked', (users[index_pos][26] == "true"));
+            $('#carta').prop('checked', (users[index_pos][27] == "true"));
+            $('#no_infv').prop('checked', (users[index_pos][28] == "true"));
+            $('#rfc').prop('checked', (users[index_pos][29] == "true"));
+
+            $('select').formSelect();
+        }
+
+        $("#table_user").delegate('.row_user', 'click', function () {
+            $('#modal1').modal("open");
+            index_pos = $(this).closest("tr").attr("id");
+            print_data_user_modal(index_pos);
+            // $(".image_perfil").attr("src", "http://201.172.31.105:8080/sistema/images/usuarios/" + users[index_pos][0] + "-min.png");
+
+        });
+
+        $(".edit").click(function () {
+            $(".edit").addClass("hide");
+            $(".save").removeClass("hide");
+            $(".input-field input").removeAttr("readonly");
+        });
+
+        $(".save").click(function () {
+            $(".save").addClass("hide");
+            $(".edit").removeClass("hide");
+            $(".input-field input").attr("readonly", "readonly");
+            $("#modal_alert").modal("open");
+            $(".title").text("Atencion");
+            $(".sms_alert").text("Guardar Cambios");
+        });
+
+        $("#horario").click(function () {
+            alert();
+        });
+
+        $(".nex").click(function () {
+            index_pos++;
+            $('#modal1').modal("close");
+            print_data_user_modal(index_pos);
+            $('#modal1').modal("open");
+        });
+
+        $(".prev").click(function () {
+            index_pos--;
+            $('#modal1').modal("close");
+            print_data_user_modal(index_pos);
+            $('#modal1').modal("open");
+        });
+
+        $("#suspencion").click(function () {
+            $('#modal_formato').modal("open");
+            $("#insert_format").attr("onclick", "update_suspencion(30);");
+            $('#nom_format').html( $(this, ".nom_docx").text() );
+            $('#data_format').empty();
+            for(i in suspencion){
+                console.log(suspencion[i]);
+                $('#data_format').append('<a class="collection-item">Numero: '+ (i) +' Fecha: '+suspencion[i].fecha+'</a>');
+            }
+        });
+        function update_suspencion(puntero) {
+            var MyDate = new Date();
+            MyDate.setDate(MyDate.getDate());
+            var MyDateString = MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '-' + ('0' + MyDate.getDate()).slice(-2);
+            var datos = {numero: suspencion.length, fecha: MyDateString};
+            suspencion.push(datos);
+            // alert(JSON.stringify(suspencion));
+            $('#data_format').empty();
+            for (i in suspencion) {
+                console.log(suspencion[i]);
+                $('#data_format').append('<a class="collection-item">Numero: ' + (i) + ' Fecha: ' + suspencion[i].fecha + '</a>');
+            }
+
+        }
+
+
+        document.querySelector("#filtro").onkeyup = function () {
+            $TableFilter("#tabla_usuarios", this.value);
+        };
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+                var row = rows[i];
+                row.style.display = 'none';
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        };
+
+    </script>
+</body>
+
+</html>
