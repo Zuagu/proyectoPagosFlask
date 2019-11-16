@@ -1,0 +1,37 @@
+.div_login {
+	opacity: 0;
+	transition: 3s;
+}
+
+
+/*colores aeatorios*/
+.fondo1 {
+	background-image: linear-gradient(to bottom right, black, grey);
+	height: 100vh;
+}
+.fondo2 {
+	background-image: linear-gradient(to bottom right, red, grey);
+	height: 100vh;
+}
+.fondo3 {
+	background-image: linear-gradient(to bottom right, blue, grey);
+	height: 100vh;
+}
+
+.enviar1 {
+	transition: .5s;
+	border-radius: 10px;
+	background-image: linear-gradient(to bottom right, white, black);
+}
+
+.enviar2 {
+	transition: .5s;
+	background-image: linear-gradient(to bottom right, white, red);
+	border-radius: 10px;
+}
+
+.enviar3 {
+	transition: .5s;
+	background-image: linear-gradient(to bottom right, white, blue);
+	border-radius: 10px;
+}
